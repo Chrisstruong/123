@@ -5,6 +5,8 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
+
+// get route
 app.get('/', (req, res) => {
     return res.json({hello: "world!"})
 })
