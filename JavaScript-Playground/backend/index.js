@@ -19,6 +19,8 @@ app.post("/run", (req, res) => {
         return res.status(400).json({success: "false", error: "Empty code body"})
     }
 
+    // need to generate a js file with content from the request
+    // We need to run the file and send the response
     return res.json({language, code})
 })
 
