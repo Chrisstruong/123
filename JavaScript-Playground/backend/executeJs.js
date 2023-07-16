@@ -14,9 +14,10 @@ if (!fs.existsSync(outputPath)) {
 const executeJs = (filepath) => {
     const jobId = path.basename(filepath).split(".")[0]
     const outPath = path.join(outputPath, `${jobId}.out`)
+    console.log(outPath)
+    console.log(outputPath)
     return new Promise((resolve, reject) => {
-        console.log(`node ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.js`)
-        exec(`node ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.js`, 
+        exec(`node ${filepath} -o ${outPath} `, 
         (error, stdout, stderr) => {
             error && reject({error, stderr})
             stderr && reject(stderr)
@@ -24,6 +25,7 @@ const executeJs = (filepath) => {
         })
     })
 }
+// `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out`
 
 module.exports = {
     executeJs,

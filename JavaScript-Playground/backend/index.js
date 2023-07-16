@@ -26,7 +26,8 @@ app.post("/run", async (req, res) => {
         const filepath = await generateFile(language, code)
         // We need to run the file and send the response
         const output = await executeJs(filepath)
-        return res.json({ filepath })
+        
+        return res.json({ filepath, output })
 
     } catch (err) {
         res.status(500).json({ err })
