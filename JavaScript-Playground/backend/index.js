@@ -1,12 +1,15 @@
 const express = require("express")
+const cors = require("cors")
 
 const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
 
 const app = express()
 
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
 
 
 // get route
