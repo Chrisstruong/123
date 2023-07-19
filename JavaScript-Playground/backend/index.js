@@ -3,6 +3,7 @@ const cors = require("cors")
 
 const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
+const { testCases } = require("./testCases")
 
 const app = express()
 
@@ -29,8 +30,8 @@ app.post("/run", async (req, res) => {
         const filepath = await generateFile(language, code)
         // We need to run the file and send the response
         const output = await executeJs(filepath)
-        
-        return res.json({ filepath, output })
+        const result = await testCases(filepath)
+        return res.json({ filepath, output, result })
 
     } catch (err) {
         res.status(500).json({ err })

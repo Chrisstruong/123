@@ -14,7 +14,7 @@ const executeJs = (filepath) => {
     const outPath = path.join(outputPath, `${jobId}.out`)
     
     return new Promise((resolve, reject) => {
-        exec(`node ${filepath} -o ${outPath} `, 
+        exec(`node ${filepath} touch ${outPath}`, 
         (error, stdout, stderr) => {
             error && reject({error, stderr})
             stderr && reject(stderr)
