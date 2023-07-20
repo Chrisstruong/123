@@ -16,10 +16,6 @@ const mostFrequentChar = (s) => {
   }
   
   return best
-
 };
-
 console.log(mostFrequentChar('bookeeper'))
-
-
 module.exports = {mostFrequentChar,}
