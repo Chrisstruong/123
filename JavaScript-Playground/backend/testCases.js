@@ -9,7 +9,7 @@ const testCases = async (filepath) => {
     let countPass = 0
 
     const input = ["bookeeper", "david", "abby"]
-    const expectation = ["e", "d", "bd"]
+    const expectation = ["e", "d", "b"]
 
     for (let i = 0; i < input.length; i++) {
         if (mostFrequentChar(input[i]) === expectation[i])  countPass++
