@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
     return res.json({ hello: "world!" })
 })
 
+// post operation for run cases
 app.post("/run", async (req, res) => {
 
     const { language = "js", code } = req.body
@@ -30,11 +31,27 @@ app.post("/run", async (req, res) => {
         const filepath = await generateFile(language, code)
         // We need to run the file and send the response
         const output = await executeJs(filepath)
-        const result = await testCases(filepath)
-        return res.json({ filepath, output, result })
+        return res.json({ filepath, output })
 
     } catch (err) {
         res.status(500).json({ err })
+    }
+})
+
+// operation for test cases
+app.post("/test", async (req, res) => {
+    const { language="js", code} = req.body
+
+    if (code === undefined) {
+        return res.status(400).json({success: "false", error: "Empty code body"})
+    }
+    try {
+        const filepath = await generateFile(language, code)
+        const output = await executeJs(filepath)
+        const result = await testCases(filepath)
+        return res.json({filepath, output, result})
+    } catch (err) {
+        res.status(500).json({err})
     }
 })
 
