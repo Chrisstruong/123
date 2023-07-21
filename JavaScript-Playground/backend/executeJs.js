@@ -14,7 +14,7 @@ const executeJs = (filepath) => {
     const outPath = path.join(outputPath, `${jobId}.out`)
     
     return new Promise((resolve, reject) => {
-        exec(`node ${filepath} touch ${outPath}`, 
+        exec(`node ${filepath}`, 
         (error, stdout, stderr) => {
             error && reject({error, stderr})
             stderr && reject(stderr)
@@ -23,7 +23,7 @@ const executeJs = (filepath) => {
     })
 }
 // `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out`
-
+// The reason why we do not need to create OUTPUT file because JS doesnt need it while C++ does
 module.exports = {
     executeJs,
 }
