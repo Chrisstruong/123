@@ -5,6 +5,7 @@ import axios from "axios"
 function App() {
   const [code, setCode] = useState('')
   const [output, setOutput] = useState("")
+  const [testCases, setTestCases] = useState("")
 
   const handleSubmit = async () => {
     const payload = {
@@ -13,7 +14,9 @@ function App() {
     }
     try {
       const { data } = await axios.post("http://localhost:1000/run", payload)
+      console.log(data)
       setOutput(data.output)
+      setTestCases(data.result)
     } catch (err) {
       console.log(err.response)
     }
@@ -35,6 +38,7 @@ function App() {
       <br />
       <button onClick={handleSubmit}>Submit</button>
       <p>{output}</p>
+      <p>{testCases}</p>
     </div>
   );
 }
