@@ -1,9 +1,13 @@
 const express = require("express")
 const cors = require("cors")
 
+require("dotenv").config()
+require("./config/db.connection")
+
 const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
 const { testCases } = require("./testCases")
+const { executePy } = require("./executePy")
 
 const app = express()
 
@@ -30,8 +34,14 @@ app.post("/run", async (req, res) => {
     try {
         // need to generate a js file with content from the request
         const filepath = await generateFile(language, code)
+
+        let output
         // We need to run the file and send the response
-        const output = await executeJs(filepath)
+        if (language === "js") {
+            output = await executeJs(filepath)
+        } else {
+            output = await executePy(filepath)
+        }
         return res.json({ filepath, output })
 
     } catch (err) {
