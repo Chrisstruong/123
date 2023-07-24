@@ -8,6 +8,7 @@ const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
 const { testCases } = require("./testCases")
 const { executePy } = require("./executePy")
+const { addJobToQueue } = require('./jobQueue')
 const Job = require("./models/Job")
 
 const app = express()
@@ -19,23 +20,23 @@ app.use(express.json())
 
 
 // get route
-app.get('/status', async(req, res) => {
+app.get('/status', async (req, res) => {
     const jobId = req.query.id
     console.log("status requested", jobId)
     if (jobId === undefined) {
-        return res.status(400).json({success:false, error:"missing id query parameter"})
+        return res.status(400).json({ success: false, error: "missing id query parameter" })
     }
     try {
         const job = await Job.findById(jobId)
 
         if (job === undefined) {
-            return res.status(404).json({success: false, error: "invalid job id"})
+            return res.status(404).json({ success: false, error: "invalid job id" })
         }
 
-        return res.status(200).json({success: true, job})
+        return res.status(200).json({ success: true, job })
 
-    } catch(err){
-        return res.status(400).json({success: false, error: JSON.stringify(err)})
+    } catch (err) {
+        return res.status(400).json({ success: false, error: JSON.stringify(err) })
     }
 })
 
@@ -55,34 +56,15 @@ app.post("/run", async (req, res) => {
 
         job = await new Job({ language, filepath }).save()
         const jobId = job["_id"]
+        addJobToQueue(jobId)
         console.log(job)
-        res.status(201).json({success: true, jobId})
+        res.status(201).json({ success: true, jobId })
 
         // We need to run the file and send the response
         let output
 
-        job["startedAt"] = new Date()
-        if (language === "js") {
-            output = await executeJs(filepath)
-        } else {
-            output = await executePy(filepath)
-        }
-
-        job["completedAt"] = new Date()
-        job["status"] = "success"
-        job["output"] = output
-
-        await job.save()
-        console.log(job)
-        // return res.json({ filepath, output })
-
     } catch (err) {
-        job["completedAt"] = new Date()
-        job["status"] = "error"
-        job["output"] = JSON.stringify(err)
-        await job.save()
-        console.log(job)
-        // res.status(500).json({ err })
+        return res.status(500).json({ success: false, error: JSON.stringify(err)})
     }
 })
 
