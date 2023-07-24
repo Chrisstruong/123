@@ -31,12 +31,13 @@ function App() {
     }
     let result = ''
     let {submittedAt, completedAt, startedAt} = jobDetails
+    console.log(completedAt)
     submittedAt = moment(submittedAt).toString()
     result += `Submitted At: ${submittedAt}`
-    // if (!completedAt || !startedAt) {
-    //   console.log(123)
-    //   //return result
-    // }
+    if (!completedAt || !startedAt) {
+      console.log(123)
+      return result
+    }
     const start = moment(startedAt)
     const end = moment(completedAt)
     const executionTime = end.diff(start, 'seconds', true)
