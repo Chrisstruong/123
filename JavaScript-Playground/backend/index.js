@@ -7,7 +7,6 @@ require("./config/db.connection")
 const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
 const { testCases } = require("./testCases")
-const { executePy } = require("./executePy")
 const { addJobToQueue } = require('./jobQueue')
 const Job = require("./models/Job")
 

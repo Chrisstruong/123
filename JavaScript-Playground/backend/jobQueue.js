@@ -3,6 +3,8 @@ const Queue = require("bull")
 const jobQueue = new Queue("job-queue")
 const NUM_WORKERS = 5
 const Job = require("./models/Job")
+const { executeJs } = require("./executeJs")
+const { executePy } = require("./executePy")
 
 jobQueue.process(NUM_WORKERS, async ({ data }) => {
     console.log(data)
