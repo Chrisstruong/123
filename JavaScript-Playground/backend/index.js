@@ -8,6 +8,7 @@ const { generateFile } = require("./generateFile")
 const { executeJs } = require("./executeJs")
 const { testCases } = require("./testCases")
 const { executePy } = require("./executePy")
+const Job = require("./models/Job")
 
 const app = express()
 
@@ -29,11 +30,16 @@ app.post("/run", async (req, res) => {
     console.log(language, code.length)
 
     if (code === undefined) {
-        return res.status(400).json({ success: "false", error: "Empty code body" })
+        return res.status(400).json({ success: false, error: "Empty code body" })
     }
     try {
         // need to generate a js file with content from the request
         const filepath = await generateFile(language, code)
+
+        const job = await new Job({language, filepath}).save()
+        // const jobId = job["_id"].toString()
+        const jobId = job["_id"].toString()
+        // res.status(201).json({success: true})
 
         let output
         // We need to run the file and send the response
@@ -42,6 +48,7 @@ app.post("/run", async (req, res) => {
         } else {
             output = await executePy(filepath)
         }
+        console.log({filepath, output})
         return res.json({ filepath, output })
 
     } catch (err) {
