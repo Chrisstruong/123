@@ -1,1 +1,0 @@
-cnsole.log(123)
