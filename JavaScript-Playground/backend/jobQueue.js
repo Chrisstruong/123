@@ -26,6 +26,7 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
         job["completedAt"] = new Date()
         job["status"] = "success"
         job["output"] = output
+        console.log("Fetched Job", job)
 
         await job.save()
     } catch (err) {

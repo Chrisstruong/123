@@ -17,7 +17,7 @@ const jobSchema = new mongoose.Schema({
     startedAt: {
         type: Date,
     },
-    compledtedAt: {
+    completedAt: {
         type: Date,
     },
     output: {
