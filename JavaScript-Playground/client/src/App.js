@@ -3,6 +3,8 @@ import React, { useState, useEffect} from "react"
 import stubs from './defaultStubs'
 import axios from "axios"
 import moment from "moment"
+import Editor from '@monaco-editor/react'
+
 
 function App() {
   const [code, setCode] = useState('') // The code from website (request)
@@ -33,15 +35,14 @@ function App() {
     let {submittedAt, completedAt, startedAt} = jobDetails
     console.log(completedAt)
     submittedAt = moment(submittedAt).toString()
-    result += `Submitted At: ${submittedAt}`
+    result += `Submitted At: ${submittedAt} `
     if (!completedAt || !startedAt) {
-      console.log(123)
       return result
     }
     const start = moment(startedAt)
     const end = moment(completedAt)
     const executionTime = end.diff(start, 'seconds', true)
-    result += `Execution Time: ${executionTime}s`
+    result += `Execution Time: ${executionTime*1000}ms`
     return result
   }
 
@@ -59,7 +60,6 @@ function App() {
       setStatus("")
       setJobDetails(null)
       const { data } = await axios.post("http://localhost:1000/run", payload)
-      console.log(data)
       setJobId(data.jobId)
       let intervalId
 
@@ -70,8 +70,10 @@ function App() {
         )
         const { success, job, error } = dataRes
         //console.log(dataRes)
+        console.log(success)
         if (success) {
           const { status: jobStatus, output: jobOutput } = job
+          console.log(jobStatus)
           setStatus(jobStatus)
           setJobDetails(job)
           if (jobStatus === "pending") return
@@ -134,6 +136,8 @@ function App() {
         <button onClick={setDefaultLanguage}>Set Default</button>
       </div>
       <br />
+
+      <Editor theme="vs-dark" height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment"/>
 
       <textarea
         rows="20"
