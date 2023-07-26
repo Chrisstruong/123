@@ -4,18 +4,12 @@ import stubs from './defaultStubs'
 import axios from "axios"
 import moment from "moment"
 import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
-import oneDarkPro from './themes/one_dark_pro.json'
+import MonacoEditorComponent from './components/MonacoEditorComponent';
 
 
 function App() {
 
-  // const monaco = useMonaco()
-  // const defineTheme = fetch('/themes/Amy.json')
-  // .then(data => data.json())
-  // .then(data => {
-  //   monaco.editor.defineTheme('amy', data);
-  //   monaco.editor.setTheme('amy');
-  // })
+  
 
   const [code, setCode] = useState('') // The code from website (request)
   const [output, setOutput] = useState("") // basically output
@@ -23,6 +17,8 @@ function App() {
   const [status, setStatus] = useState("") // To check status whether server is done the job or not
   const [jobId, setJobId] = useState("") // To get the Job ID
   const [jobDetails, setJobDetails] = useState(null)// This is for calculating time executtion
+
+
 
   useEffect(() => {
     const defaultLang = localStorage.getItem("default-language") || "js"
@@ -147,7 +143,8 @@ function App() {
       </div>
       <br />
 
-      <Editor theme={oneDarkPro} height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment" />
+      <Editor  height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment" />
+      {/* <MonacoEditorComponent/> */}
       <br />
       <textarea
         rows="20"
