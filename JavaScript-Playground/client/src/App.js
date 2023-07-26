@@ -8,9 +8,6 @@ import MonacoEditorComponent from './components/MonacoEditorComponent';
 
 
 function App() {
-
-  
-
   const [code, setCode] = useState('') // The code from website (request)
   const [output, setOutput] = useState("") // basically output
   const [language, setLanguages] = useState("js") // js or py
