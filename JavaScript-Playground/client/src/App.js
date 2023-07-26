@@ -1,12 +1,22 @@
 import './App.css';
-import React, { useState, useEffect} from "react" 
+import React, { useState, useEffect } from "react"
 import stubs from './defaultStubs'
 import axios from "axios"
 import moment from "moment"
-import Editor from '@monaco-editor/react'
+import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
+import oneDarkPro from './themes/one_dark_pro.json'
 
 
 function App() {
+
+  // const monaco = useMonaco()
+  // const defineTheme = fetch('/themes/Amy.json')
+  // .then(data => data.json())
+  // .then(data => {
+  //   monaco.editor.defineTheme('amy', data);
+  //   monaco.editor.setTheme('amy');
+  // })
+
   const [code, setCode] = useState('') // The code from website (request)
   const [output, setOutput] = useState("") // basically output
   const [language, setLanguages] = useState("js") // js or py
@@ -19,7 +29,7 @@ function App() {
     setLanguages(defaultLang)
   }, [])
 
-  useEffect(()=> {
+  useEffect(() => {
     setCode(stubs[language])
   }, [language])
 
@@ -28,11 +38,11 @@ function App() {
   }
 
   const renderTimeDetails = () => {
-    if(!jobDetails){
+    if (!jobDetails) {
       return ""
     }
     let result = ''
-    let {submittedAt, completedAt, startedAt} = jobDetails
+    let { submittedAt, completedAt, startedAt } = jobDetails
     console.log(completedAt)
     submittedAt = moment(submittedAt).toString()
     result += `Submitted At: ${submittedAt} `
@@ -42,7 +52,7 @@ function App() {
     const start = moment(startedAt)
     const end = moment(completedAt)
     const executionTime = end.diff(start, 'seconds', true)
-    result += `Execution Time: ${executionTime*1000}ms`
+    result += `Execution Time: ${executionTime * 1000}ms`
     return result
   }
 
@@ -64,7 +74,7 @@ function App() {
       let intervalId
 
       intervalId = setInterval(async () => {
-        
+
         const { data: dataRes } = await axios.get("http://localhost:1000/status",
           { params: { id: data.jobId } }
         )
@@ -137,8 +147,8 @@ function App() {
       </div>
       <br />
 
-      <Editor theme="vs-dark" height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment"/>
-
+      <Editor theme={oneDarkPro} height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment" />
+      <br />
       <textarea
         rows="20"
         cols="75"
