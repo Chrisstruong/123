@@ -3,11 +3,30 @@ import React, { useState, useEffect } from "react"
 import stubs from './defaultStubs'
 import axios from "axios"
 import moment from "moment"
-import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
-import MonacoEditorComponent from './components/MonacoEditorComponent';
+import Editor, { loader } from "@monaco-editor/react";
 
 
 function App() {
+
+  loader.init().then((monaco) => {
+    monaco.editor.defineTheme('myTheme', {
+      base: "vs",
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.foreground": "#000000",
+        "editor.background": "#EDF9FA",
+        "editorCursor.foreground": "#8B0000",
+        "editor.lineHighlightBackground": "#0000FF20",
+        "editorLineNumber.foreground": "#008800",
+        "editor.selectionBackground": "#88000030",
+        "editor.inactiveSelectionBackground": "#88000015",
+      },
+    })//
+  })
+
+
+
   const [code, setCode] = useState('') // The code from website (request)
   const [output, setOutput] = useState("") // basically output
   const [language, setLanguages] = useState("js") // js or py
@@ -140,8 +159,7 @@ function App() {
       </div>
       <br />
 
-      <Editor  height="10vh" width="80rem" defaultLanguage="javascript" defaultValue="// some comment" />
-      {/* <MonacoEditorComponent/> */}
+      <Editor theme="myTheme" id="container" height="10vh" width="80rem" defaultLanguage="javascript" />
       <br />
       <textarea
         rows="20"
