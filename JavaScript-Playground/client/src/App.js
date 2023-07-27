@@ -21,7 +21,8 @@ function App() {
         "editorLineNumber.foreground": "#008800",
         "editor.selectionBackground": "#88000030",
         "editor.inactiveSelectionBackground": "#88000015",
-      },
+      }
+
     })//
   })
 
