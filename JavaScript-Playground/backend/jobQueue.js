@@ -39,7 +39,7 @@ jobQueue.process(NUM_WORKERS, async ({ data }) => {
 })
 
 jobQueue.on('failed', (error) => {
-    console.log(error.data.id, "failed", error.failedReason)
+    console.log(error.data.id, "failed123", error.failedReason)
 })
 
 
