@@ -14,13 +14,19 @@ function App() {
       inherit: true,
       rules: [],
       colors: {
-        "editor.foreground": "#000000",
-        "editor.background": "#EDF9FA",
-        "editorCursor.foreground": "#8B0000",
-        "editor.lineHighlightBackground": "#0000FF20",
-        "editorLineNumber.foreground": "#008800",
-        "editor.selectionBackground": "#88000030",
-        "editor.inactiveSelectionBackground": "#88000015",
+        background: '#282c34',
+        text: '#abb2bf',
+        variable: '#e06c75',
+        attribute: '#d19a66',
+        definition: '#e5c07b',
+        keyword: '#c678dd',
+        operator: '#56b6c2',
+        property: '#56b6c2',
+        number: '#d19a66',
+        string: '#98c379',
+        comment: '#5c6370',
+        meta: '#abb2bf',
+        tag: '#e06c75',
       }
 
     })//
@@ -56,7 +62,6 @@ function App() {
     }
     let result = ''
     let { submittedAt, completedAt, startedAt } = jobDetails
-    console.log(completedAt)
     submittedAt = moment(submittedAt).toString()
     result += `Submitted At: ${submittedAt} `
     if (!completedAt || !startedAt) {
@@ -92,11 +97,10 @@ function App() {
           { params: { id: data.jobId } }
         )
         const { success, job, error } = dataRes
-        //console.log(dataRes)
-        console.log(success)
+        console.log(data)
+        console.log(dataRes)
         if (success) {
           const { status: jobStatus, output: jobOutput } = job
-          console.log(jobStatus)
           setStatus(jobStatus)
           setJobDetails(job)
           if (jobStatus === "pending") return
@@ -108,7 +112,6 @@ function App() {
           clearInterval(intervalId)
           setOutput(error)
         }
-        //console.log(dataRes)
       }, 1000)
     } catch ({ response }) {
       if (response) {
