@@ -60,7 +60,6 @@ app.post("/run", async (req, res) => {
         res.status(201).json({ success: true, jobId })
 
         // We need to run the file and send the response
-        let output
 
     } catch (err) {
         return res.status(500).json({ success: false, error: JSON.stringify(err)})
