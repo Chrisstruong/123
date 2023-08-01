@@ -26,8 +26,25 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
+    new HtmlWebPackPlugin({ template: './src/index.html' }),
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+      languages: [
+        'html',
+        // 'markdown',
+        'css',
+        // 'scss',
+        // 'less',
+        //'javascript',
+        // 'typescript',
+        // 'coffee',
+        // 'python',
+        // 'json',
+      ],
+      features: ['!gotoSymbol'],
     }),
   ],
+  devServer: {
+    port: 3000, // you can change the port
+  },
 };

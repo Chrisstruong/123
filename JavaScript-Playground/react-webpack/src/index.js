@@ -1,5 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { loadWASM } from 'onigasm';
 
-ReactDOM.render(<App />, document.getElementById("app"));
+
+import App from './App';
+
+// load wasm
+(async () => {
+  await loadWASM('./onigasm.wasm');
+  ReactDOM.render(<App />, document.getElementById('root'));
+})();
